@@ -1,10 +1,7 @@
-1. Start OpenTelemetry OTLP Server at address "localhost:4317" using docker-compose.yaml at parent path:
-docker-compose up -d
-
-2. Start the main appliction of the Vertx application at com.example.starter.Main. 
+1. Start the main appliction of the Vertx application at com.example.starter.Main. 
    Once started, the Vertx application will be listened on port 8088.
 
-3. Use a curl client to request to the http://localhost:8088/test endpoint. 
+2. Use a curl client to request to the http://localhost:8088/test endpoint. 
    The /test endpoint will internally make a GET request to /server. Both endpoints are reside on same server for simplicity.
    
    
@@ -12,21 +9,28 @@ docker-compose up -d
    
    > // Loggings from first get request, the request is successful received by server:
    > 
-   > Jan 03, 2023 4:51:05 PM com.example.starter.Main
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
+   > INFO: Handling /test request...
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
+   > INFO: Accepting /server request...
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
+   > INFO: /server responded.
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
    > INFO: Headers:
-   > Jan 03, 2023 4:51:05 PM com.example.starter.Main
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
    > INFO: x-my-header -> my-custom-header
-   > Jan 03, 2023 4:51:05 PM com.example.starter.Main
-   > INFO: content-length -> 15
+   > Jan 04, 2023 10:53:08 AM com.example.starter.Main
+   > INFO: content-length -> 9
 
 4. Run the same curl request to the same endpoint to observe the error:
    
    | curl http://localhost:8088/test
    
    > // Loggings from second get request onwards, error while validating X-B3-TraceId, request is not sent to server. HTTP2 required all headers to be in lower case:
-   > 
-   > Jan 03, 2023 4:51:09 PM com.example.starter.Main
-   > SEVERE: error:
+   > Jan 04, 2023 10:53:13 AM com.example.starter.Main
+   > INFO: Handling /test request...
+   > Jan 04, 2023 10:53:13 AM com.example.starter.Main
+   > INFO: Error while client request
    > io.netty.handler.codec.http2.Http2Exception: invalid header name [X-B3-TraceId]
    > 	at io.netty.handler.codec.http2.Http2Exception.connectionError(Http2Exception.java:109)
    > 	at io.netty.handler.codec.http2.DefaultHttp2Headers$2.validateName(DefaultHttp2Headers.java:71)
@@ -93,7 +97,7 @@ docker-compose up -d
    > 	at io.reactivex.internal.operators.completable.CompletableFromSingle.subscribeActual(CompletableFromSingle.java:29)
    > 	at io.reactivex.Completable.subscribe(Completable.java:2309)
    > 	at io.reactivex.Completable.subscribe(Completable.java:2383)
-   > 	at com.example.starter.Main.test(Main.java:74)
+   > 	at com.example.starter.Main.test(Main.java:73)
    > 	at io.vertx.lang.rx.DelegatingHandler.handle(DelegatingHandler.java:20)
    > 	at io.vertx.ext.web.impl.RouteState.handleContext(RouteState.java:1284)
    > 	at io.vertx.ext.web.impl.RoutingContextImplBase.iterateNext(RoutingContextImplBase.java:177)
@@ -146,5 +150,5 @@ docker-compose up -d
    > 	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
    > 	at java.base/java.lang.Thread.run(Thread.java:833)
    > 
-   > Jan 03, 2023 4:51:09 PM io.vertx.core.http.impl.HttpClientRequestImpl
+   > Jan 04, 2023 10:53:13 AM io.vertx.core.http.impl.HttpClientRequestImpl
    > SEVERE: invalid header name [X-B3-TraceId]
