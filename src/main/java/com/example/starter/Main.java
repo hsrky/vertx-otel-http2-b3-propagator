@@ -19,7 +19,7 @@ import io.vertx.tracing.opentelemetry.OpenTelemetryOptions;
 public class Main {
   private static final Logger logger = LoggerFactory.getLogger(Main.class);
   private static WebClient webClient;
-  private static final int SERVER_PORT = Integer.parseInt(System.getProperty("serverPort", "8088"));
+  private static final int SERVER_PORT = Integer.parseInt(System.getProperty("serverPort", "8080"));
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx(new VertxOptions()
@@ -63,7 +63,6 @@ public class Main {
       .doOnSuccess(bufferHttpResponse -> {
         logger.info("Headers:");
         bufferHttpResponse.headers().forEach(entry -> logger.info(entry.getKey() + " -> " + entry.getValue()));
-
         rc.response().end(new String(bufferHttpResponse.bodyAsBuffer().getBytes()));
       })
       .doOnError(throwable -> {

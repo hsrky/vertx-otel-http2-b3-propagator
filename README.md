@@ -1,10 +1,10 @@
 1. Start the main appliction of the Vertx application at com.example.starter.Main. 
-   Once started, the Vertx application will be listened on port 8088.
+   Once started, the Vertx application will be listened on port 8080.
 
-2. Use a curl client to request to the http://localhost:8088/test endpoint. 
+2. Use a curl client to request to the http://localhost:8080/test endpoint. 
    The /test endpoint will internally make a GET request to /server. Both endpoints are reside on same server for simplicity.  
    
-   | curl http://localhost:8088/test
+   | curl http://localhost:8080/test
    
    > // Loggings from first get request, the request is successful received by server:
    > 
@@ -23,7 +23,7 @@
 
 3. Run the same curl request to the same endpoint to observe the error:
    
-   | curl http://localhost:8088/test
+   | curl http://localhost:8080/test
    
    > // Loggings from second get request onwards, error while validating X-B3-TraceId, request is not sent to server. HTTP2 required all headers to be in lower case:
    > 
